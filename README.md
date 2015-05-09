@@ -12,4 +12,5 @@ alfred-todoist-workflow
 +  td a go to store - adds task with no due
 +  td a go to store tomorrow - add task due tomorrow
 +  td a go to store monday - add task due on monday
-+  currently does not support adding tasks with dates like "td a go to store may 15"
++  td a go to store may 15 @ 1pm
++  td a go to store +5 - add task due in 5 days
