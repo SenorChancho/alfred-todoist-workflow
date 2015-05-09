@@ -61,7 +61,7 @@ def isDateWord(word):
 	word = word.lower()
 	
 	# days of the week and key words
-	if word == 'monday' or word == 'mon' or word == 'tuesday' or word == 'tues' or word == 'tue' or word == 'wednesday' or word == 'wed' or word == 'thursday' or word == 'thurs' or word == 'thur' or word == 'friday' or word == 'fri' or word == 'saturday' or word == 'sat' or word == 'sunday' or word == 'sun' or word == 'tomorrow' or word == 'tom' or word == 'today' or word == 'every' or word == 'next' or word == '@' or word.startswith('+'):
+	if word == 'monday' or word == 'mon' or word == 'tuesday' or word == 'tues' or word == 'tue' or word == 'wednesday' or word == 'wed' or word == 'thursday' or word == 'thurs' or word == 'thur' or word == 'friday' or word == 'fri' or word == 'saturday' or word == 'sat' or word == 'sunday' or word == 'sun' or word == 'tomorrow' or word == 'tom' or word == 'today' or word == 'every' or word == 'next' or word.startswith('@') or word.startswith('+'):
 		return True
 	# months
 	elif word == 'january' or word == 'jan' or word == 'february' or word == 'feb' or word == 'march' or word == 'mar' or word == 'april' or word == 'apr' or word == 'may' or word == 'june' or word == 'july' or word == 'august' or word == 'aug' or word == 'september' or word == 'sept' or word == 'october' or word == 'oct'or word == 'november' or word == 'nov' or word == 'december' or word == 'dec':
