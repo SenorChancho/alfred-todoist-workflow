@@ -56,6 +56,18 @@ def show_add_task_to_projects(wf, api_key, task, due=None):
 								subtitle='Add task to project {}'.format(project['name']),
 								arg=json.dumps(dict(action="add", params_json=json.dumps(params))),
 								valid=True)
+								
+def isDateWord(word):
+	word = word.lower()
+	
+	# days of the week and key words
+	if word == 'monday' or word == 'mon' or word == 'tuesday' or word == 'tues' or word == 'tue' or word == 'wednesday' or word == 'wed' or word == 'thursday' or word == 'thurs' or word == 'thur' or word == 'friday' or word == 'fri' or word == 'saturday' or word == 'sat' or word == 'sunday' or word == 'sun' or word == 'tomorrow' or word == 'tom' or word == 'today' or word == 'every' or word == 'next' or word == '@':
+		return True
+	# months
+	elif word == 'january' or word == 'jan' or word == 'february' or word == 'feb' or word == 'march' or word == 'mar' or word == 'april' or word == 'apr' or word == 'may' or word == 'june' or word == 'july' or word == 'august' or word == 'aug' or word == 'september' or word == 'sept' or word == 'october' or word == 'oct'or word == 'november' or word == 'nov' or word == 'december' or word == 'dec':
+		return True
+	else:	
+		return False
 
 def main(wf):
 	parser = argparse.ArgumentParser()
@@ -124,18 +136,26 @@ def main(wf):
 		if nterms > 0:
 			task = terms[0]
 			if nterms > 1:
-				for x in range(1, nterms - 1):
-					task = task + ' ' + terms[x]
+				termIndex = 1
 				
-				if terms[nterms - 1] == 'monday' or terms[nterms - 1] == 'tuesday' or terms[nterms - 1] == 'wednesday' or terms[nterms - 1] == 'thursday' or terms[nterms - 1] == 'friday' or terms[nterms - 1] == 'saturday' or terms[nterms - 1] == 'sunday' or terms[nterms - 1] == 'tomorrow' or terms[nterms - 1] == 'today':
-					due = terms[nterms - 1]
+				while termIndex < nterms and isDateWord(terms[termIndex]) == False:
+					task = task + ' ' + terms[termIndex]
+					termIndex = termIndex + 1;
+				
+				if termIndex < nterms:
+					due = terms[termIndex]
+					termIndex = termIndex + 1
+					
+					while termIndex < nterms:
+						due = due + ' ' + terms[termIndex]
+						termIndex = termIndex + 1;
+
 					params = dict(token=api_key, content=task, date_string=due, priority=1) 
 					wf.add_item(title='{} due on {}'.format(task, due), subtitle='Add task to the inbox', arg=json.dumps(dict(action='add', params_json=json.dumps(params))), valid=True)
 					# other projects
 					show_add_task_to_projects(wf, api_key, task, due)
 
 				else:
-					task = task + ' ' + terms[nterms - 1]
 					params = dict(token=api_key, content=task, priority=1)
 					wf.add_item(title='{} with no due'.format(task), subtitle='Add task to the inbox', arg=json.dumps(dict(action='add', params_json=json.dumps(params))),valid=True)
 					# other projects
